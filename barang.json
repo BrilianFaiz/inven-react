@@ -1,0 +1,14 @@
+{
+  "barang": [
+    {
+      "nama": "batu2",
+      "stok": "2",
+      "id": "1"
+    },
+    {
+      "id": "cb00",
+      "nama": "bola",
+      "stok": "20"
+    }
+  ]
+}
