@@ -9,6 +9,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name,setName] = useState('');
   const [stok,setStok] = useState('');
+  const [userEdit,setUserEdit] = useState('');
   const API_URL = "http://localhost:3000/barang";
 
   useEffect(() => {
@@ -47,6 +48,54 @@ function App() {
     getAllData();
   }
 
+  //function menampilkan edit data
+  function editData(data){
+    setUserEdit(data);
+    setName(data.nama);
+    setStok(data.stok);
+    setActiveMenu('input');
+  }
+
+  //fungsi update data
+  //fungsi update data
+  async function updateData(e){
+    e.preventDefault(); // Tetap pertahankan ini ya!
+    if (!name || !stok){
+      alert("Nama dan Stok harus diisi!");
+      return;
+    }
+    try {
+      await axios.put(API_URL+"/"+userEdit.id, { nama: name, stok: stok }); 
+      
+      // Kosongkan inputan setelah berhasil
+      setName('');
+      setStok(''); 
+      setUserEdit(''); // <--- TAMBAHKAN BARIS INI
+      
+      // Ambil data terbaru untuk me-refresh tabel
+      getAllData(); 
+      setActiveMenu('dashboard'); // Kembali ke tampilan dashboard
+    } catch (error) {
+      console.error("Gagal mengupdate data:", error);
+    }
+  }
+
+  //fungsi handle clicker di submit, biar bisa satu tombol untuk edit dan post
+  async function handleClick(e){
+    e.preventDefault(); 
+      if(userEdit){
+        await updateData(e);
+      }else{
+        await addData(e);
+      }
+
+  }
+
+  async function deletData(id) {
+    const response = await axios.delete(API_URL+"/"+id);
+    getAllData();
+  }
+
   const [activeMenu, setActiveMenu] = useState('dashboard')
   const [items, setItems] = useState([])
   const [form, setForm] = useState({ id: null, name: '', stock: '' })
@@ -65,10 +114,10 @@ function App() {
   //   setForm({ id: null, name: '', stock: '' })
   // }
 
-  const handleEdit = (item) => {
-    setForm(item)
-    setActiveMenu('input')
-  }
+  // const handleEdit = (item) => {
+  //   setForm(item)
+  //   setActiveMenu('input')
+  // }
 
   const handleDelete = (id) => {
     setItems(inventoryController.deleteItem(items, id))
@@ -103,8 +152,8 @@ function App() {
                     <td>{user.nama}</td>
                     <td>{user.stok}</td>
                     <td>
-                      <button onClick={() => handleEdit(user)}>Edit</button>
-                      <button onClick={() => handleDelete(user.id)}>Delete</button>
+                      <button onClick={() => editData(user)}>Edit</button>
+                      <button onClick={() => deletData(user.id)}>Delete</button>
                     </td>
                   </tr>
                 ))}
@@ -114,9 +163,9 @@ function App() {
         )}
         {activeMenu === 'input' && (
           <div>
-            <h2>{form.id ? 'Edit Barang' : 'Input Barang'}</h2>
+           <h2>{userEdit ? 'Edit Barang' : 'Input Barang'}</h2>
 
-            <form onSubmit={addData}>
+            <form onSubmit={handleClick}>
               <input
                 type="text"
                 placeholder="Nama Barang"
@@ -132,7 +181,7 @@ function App() {
               />
 
               <button type="submit">
-                simpan
+                {userEdit?'edit':'tambah data'}  
               </button>
             </form>
 

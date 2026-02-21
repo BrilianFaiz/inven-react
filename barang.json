@@ -6,14 +6,19 @@
       "id": "1"
     },
     {
-      "id": "cb00",
-      "nama": "bola",
-      "stok": "20"
+      "nama": "dodo",
+      "stok": "20",
+      "id": "cb00"
     },
     {
-      "id": "cdd0",
-      "nama": "budi",
-      "stok": "12"
+      "nama": "budi123",
+      "stok": "12",
+      "id": "cdd0"
+    },
+    {
+      "nama": "taro1",
+      "stok": "12",
+      "id": "b1ce"
     }
   ]
 }
