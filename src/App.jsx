@@ -9,6 +9,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name,setName] = useState('');
   const [stok,setStok] = useState('');
+  const [warna,setWarna] = useState('');
   const [userEdit,setUserEdit] = useState('');
   const API_URL = "http://localhost:3000/barang";
 
@@ -32,11 +33,12 @@ function App() {
     try {
       // Pastikan property name yang dikirim sesuai dengan backend/json server
       // Json servermu pakai "nama" dan "stok"
-      await axios.post(API_URL, { nama: name, stok: stok }); 
+      await axios.post(API_URL, { nama: name, stok: stok, color: warna}); 
       
       // Kosongkan inputan setelah berhasil
       setName('');
-      setStok(''); // Gunakan huruf besar 'S' sesuai deklarasi useState
+      setStok('');
+      setWarna(''); // Gunakan huruf besar 'S' sesuai deklarasi useState
       
       // Ambil data terbaru untuk me-refresh tabel
       getAllData(); 
@@ -53,6 +55,7 @@ function App() {
     setUserEdit(data);
     setName(data.nama);
     setStok(data.stok);
+    setWarna(data.color);
     setActiveMenu('input');
   }
 
@@ -65,11 +68,12 @@ function App() {
       return;
     }
     try {
-      await axios.put(API_URL+"/"+userEdit.id, { nama: name, stok: stok }); 
+      await axios.put(API_URL+"/"+userEdit.id, { nama: name, stok: stok, color: warna }); 
       
       // Kosongkan inputan setelah berhasil
       setName('');
       setStok(''); 
+      setWarna('');
       setUserEdit(''); // <--- TAMBAHKAN BARIS INI
       
       // Ambil data terbaru untuk me-refresh tabel
@@ -90,7 +94,13 @@ function App() {
       }
 
   }
-
+  function batal(){
+    setName('');
+    setStok(''); 
+    setWarna('');
+    setUserEdit('');
+    setActiveMenu('dashboard');
+  }
   async function deletData(id) {
     const response = await axios.delete(API_URL+"/"+id);
     getAllData();
@@ -141,6 +151,7 @@ function App() {
                 <tr>
                   <th>Nama</th>
                   <th>Stok</th>
+                  <th>Warna</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -151,6 +162,7 @@ function App() {
                     {/* Pastikan .name dan .stock sesuai dengan key yang ada di file barang.json kamu */}
                     <td>{user.nama}</td>
                     <td>{user.stok}</td>
+                    <td>{user.color}</td>
                     <td>
                       <button onClick={() => editData(user)}>Edit</button>
                       <button onClick={() => deletData(user.id)}>Delete</button>
@@ -159,6 +171,8 @@ function App() {
                 ))}
               </tbody>
             </table>
+            {/* tombol fitur untuk ekspor ke excel */}
+            <button>eksport json ke excel</button>
           </div>
         )}
         {activeMenu === 'input' && (
@@ -168,6 +182,7 @@ function App() {
             <form onSubmit={handleClick}>
               <input
                 type="text"
+                id='in nama barang'
                 placeholder="Nama Barang"
                 value={name} // Gunakan state name
                 onChange={(e) => setName(e.target.value)} // Langsung update string name-nya
@@ -175,14 +190,23 @@ function App() {
 
               <input
                 type="text"
+                id='in stok'
                 placeholder="Stok"
                 value={stok} // Gunakan state stok
                 onChange={(e) => setStok(e.target.value)} // Langsung update string stok-nya
               />
 
+              <input type="text"
+              placeholder='Warna'
+              id='in warna' 
+              value={warna} 
+              onChange={(e)=>setWarna(e.target.value)} />
+
+              <button type='button' onClick={()=>{setName('');setStok('');setWarna('');}}>kosongkan data</button>
               <button type="submit">
                 {userEdit?'edit':'tambah data'}  
               </button>
+              <button type='button'onClick={batal}>batal</button>
             </form>
 
           </div>

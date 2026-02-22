@@ -3,22 +3,20 @@
     {
       "nama": "batu2",
       "stok": "2",
+      "color": "",
       "id": "1"
     },
     {
       "nama": "dodo",
       "stok": "20",
+      "color": "",
       "id": "cb00"
     },
     {
-      "nama": "budi123",
-      "stok": "12",
+      "nama": "budii",
+      "stok": "2",
+      "color": "merah",
       "id": "cdd0"
-    },
-    {
-      "nama": "taro1",
-      "stok": "12",
-      "id": "b1ce"
     }
   ]
 }
