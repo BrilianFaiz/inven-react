@@ -1,22 +1,25 @@
 {
   "barang": [
     {
-      "nama": "batu2",
-      "stok": "2",
-      "color": "",
-      "id": "1"
-    },
-    {
-      "nama": "dodo",
-      "stok": "20",
-      "color": "",
-      "id": "cb00"
-    },
-    {
+      "id": "f464",
       "nama": "budii",
       "stok": "2",
       "color": "merah",
-      "id": "cdd0"
+      "kondisi": ""
+    },
+    {
+      "id": "3146",
+      "nama": "batu",
+      "stok": "1",
+      "color": "hitam",
+      "kondisi": "good"
+    },
+    {
+      "nama": "batu1",
+      "stok": "2",
+      "color": "merah",
+      "kondisi": "Bad",
+      "id": "0d89"
     }
   ]
 }

@@ -9,6 +9,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name,setName] = useState('');
   const [stok,setStok] = useState('');
+  const [kondisi,setKondisi] = useState('');
   const [warna,setWarna] = useState('');
   const [userEdit,setUserEdit] = useState('');
   const API_URL = "http://localhost:3000/barang";
@@ -33,12 +34,13 @@ function App() {
     try {
       // Pastikan property name yang dikirim sesuai dengan backend/json server
       // Json servermu pakai "nama" dan "stok"
-      await axios.post(API_URL, { nama: name, stok: stok, color: warna}); 
+      await axios.post(API_URL, { nama: name, stok: stok, color: warna, kondisi: kondisi}); 
       
       // Kosongkan inputan setelah berhasil
       setName('');
       setStok('');
-      setWarna(''); // Gunakan huruf besar 'S' sesuai deklarasi useState
+      setWarna('');
+      setKondisi(''); // Gunakan huruf besar 'S' sesuai deklarasi useState
       
       // Ambil data terbaru untuk me-refresh tabel
       getAllData(); 
@@ -56,6 +58,7 @@ function App() {
     setName(data.nama);
     setStok(data.stok);
     setWarna(data.color);
+    setKondisi(data.kondisi);
     setActiveMenu('input');
   }
 
@@ -68,12 +71,13 @@ function App() {
       return;
     }
     try {
-      await axios.put(API_URL+"/"+userEdit.id, { nama: name, stok: stok, color: warna }); 
+      await axios.put(API_URL+"/"+userEdit.id, { nama: name, stok: stok, color: warna,kondisi: kondisi }); 
       
       // Kosongkan inputan setelah berhasil
       setName('');
       setStok(''); 
       setWarna('');
+      setKondisi('');
       setUserEdit(''); // <--- TAMBAHKAN BARIS INI
       
       // Ambil data terbaru untuk me-refresh tabel
@@ -99,6 +103,7 @@ function App() {
     setStok(''); 
     setWarna('');
     setUserEdit('');
+    setKondisi('');
     setActiveMenu('dashboard');
   }
   async function deletData(id) {
@@ -107,8 +112,7 @@ function App() {
   }
 
   const [activeMenu, setActiveMenu] = useState('dashboard')
-  const [items, setItems] = useState([])
-  const [form, setForm] = useState({ id: null, name: '', stock: '' })
+  
 
   // const handleSubmit = (e) => {
   //   e.preventDefault()
@@ -129,9 +133,7 @@ function App() {
   //   setActiveMenu('input')
   // }
 
-  const handleDelete = (id) => {
-    setItems(inventoryController.deleteItem(items, id))
-  }
+  
 
   return (
     <div className="container">
@@ -152,6 +154,7 @@ function App() {
                   <th>Nama</th>
                   <th>Stok</th>
                   <th>Warna</th>
+                  <th>Kondisi</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -163,6 +166,7 @@ function App() {
                     <td>{user.nama}</td>
                     <td>{user.stok}</td>
                     <td>{user.color}</td>
+                    <td>{user.kondisi}</td>
                     <td>
                       <button onClick={() => editData(user)}>Edit</button>
                       <button onClick={() => deletData(user.id)}>Delete</button>
@@ -202,11 +206,30 @@ function App() {
               value={warna} 
               onChange={(e)=>setWarna(e.target.value)} />
 
-              <button type='button' onClick={()=>{setName('');setStok('');setWarna('');}}>kosongkan data</button>
+              <label >
+                <input type="radio"
+                placeholder='Kondisi'
+                id='in kondisi' 
+                value="Good" 
+                onChange={(e)=>setKondisi(e.target.value)} />
+              Good</label>
+
+              <label >
+                <input type="radio"
+                placeholder='Kondisi'
+                id='in kondisi' 
+                value="Bad" 
+                onChange={(e)=>setKondisi(e.target.value)} />
+              Bad</label>
+              
               <button type="submit">
                 {userEdit?'edit':'tambah data'}  
               </button>
-              <button type='button'onClick={batal}>batal</button>
+              <button type='button' onClick={()=>{setName('');setStok('');setWarna('');setKondisi('')}}>
+                kosongkan data</button>
+              <button type='button'onClick={batal}>
+                batal</button>
+              
             </form>
 
           </div>
