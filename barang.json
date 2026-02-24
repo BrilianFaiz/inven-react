@@ -1,13 +1,6 @@
 {
   "barang": [
     {
-      "id": "f464",
-      "nama": "budii",
-      "stok": "2",
-      "color": "merah",
-      "kondisi": ""
-    },
-    {
       "id": "3146",
       "nama": "batu",
       "stok": "1",
@@ -20,6 +13,20 @@
       "color": "merah",
       "kondisi": "Bad",
       "id": "0d89"
+    },
+    {
+      "id": "1ded",
+      "nama": "satu",
+      "stok": "2",
+      "color": "merah",
+      "kondisi": "Good"
+    },
+    {
+      "nama": "satu",
+      "stok": "2",
+      "color": "3",
+      "kondisi": "Good",
+      "id": "3bd6"
     }
   ]
 }
